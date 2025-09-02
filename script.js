@@ -541,9 +541,13 @@ class MobileEnhancements {
     }
     
     addMobileOptimizations() {
-        // 防止双击缩放
+        // 防止双击缩放，但允许按钮正常工作
         document.addEventListener('touchend', (e) => {
-            if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'SELECT') {
+            if (e.target.tagName !== 'INPUT' && 
+                e.target.tagName !== 'SELECT' && 
+                e.target.tagName !== 'BUTTON' &&
+                !e.target.classList.contains('play-btn') &&
+                !e.target.closest('button')) {
                 e.preventDefault();
             }
         });
