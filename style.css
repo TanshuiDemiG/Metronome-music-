@@ -1,0 +1,819 @@
+/* 基础样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 语言切换按钮 */
+.language-switcher {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    gap: 5px;
+}
+
+.lang-btn {
+    padding: 8px 12px;
+    border: 2px solid #4CAF50;
+    background: transparent;
+    color: #4CAF50;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    min-width: 40px;
+}
+
+.lang-btn:hover {
+    background: #4CAF50;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.lang-btn.active {
+    background: #4CAF50;
+    color: white;
+}
+
+/* 移动端语言切换按钮适配 */
+@media (max-width: 768px) {
+    .language-switcher {
+        top: 10px;
+        right: 10px;
+    }
+    
+    .lang-btn {
+        padding: 6px 10px;
+        font-size: 11px;
+        min-width: 35px;
+    }
+}
+
+/* iPhone 15 适配 */
+@media screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) {
+    .language-switcher {
+        top: env(safe-area-inset-top, 10px);
+        right: env(safe-area-inset-right, 10px);
+    }
+}
+
+@media screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) {
+    .language-switcher {
+        top: env(safe-area-inset-top, 10px);
+        right: env(safe-area-inset-right, 10px);
+    }
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333;
+}
+
+.container {
+    max-width: 600px;
+    width: 90%;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+}
+
+/* 头部样式 */
+header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #4a5568;
+    margin-bottom: 0.5rem;
+}
+
+header p {
+    color: #718096;
+    font-size: 1.1rem;
+}
+
+/* 节拍器主体 */
+.metronome {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+/* 节拍指示器 */
+.beat-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.beat-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    transition: all 0.1s ease;
+}
+
+.beat-circle.active {
+    transform: scale(1.1);
+    box-shadow: 0 15px 40px rgba(102, 126, 234, 0.5);
+}
+
+.beat-pulse {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.beat-counter {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #4a5568;
+}
+
+/* BPM显示 */
+.bpm-display {
+    text-align: center;
+}
+
+.bpm-value {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+#bpmValue {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #667eea;
+}
+
+.bpm-label {
+    font-size: 1.2rem;
+    color: #718096;
+    font-weight: 500;
+}
+
+/* 控制面板 */
+.controls {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* 播放按钮 */
+.play-btn {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(45deg, #48bb78, #38a169);
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    box-shadow: 0 8px 25px rgba(72, 187, 120, 0.3);
+    transition: all 0.2s ease;
+}
+
+.play-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 35px rgba(72, 187, 120, 0.4);
+}
+
+.play-btn:active {
+    transform: translateY(0);
+}
+
+.play-btn svg {
+    width: 30px;
+    height: 30px;
+    fill: currentColor;
+}
+
+.play-btn.playing {
+    background: linear-gradient(45deg, #e53e3e, #c53030);
+    box-shadow: 0 8px 25px rgba(229, 62, 62, 0.3);
+}
+
+/* BPM控制 */
+.bpm-control {
+    text-align: center;
+}
+
+.bpm-control label {
+    display: block;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: #4a5568;
+}
+
+.slider-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.bpm-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #667eea;
+    background: white;
+    color: #667eea;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.bpm-btn:hover {
+    background: #667eea;
+    color: white;
+}
+
+.bpm-slider {
+    flex: 1;
+    height: 8px;
+    border-radius: 4px;
+    background: #e2e8f0;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.bpm-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #667eea;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.bpm-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #667eea;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.bpm-presets {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.preset-btn {
+    padding: 0.5rem 1rem;
+    border: 2px solid #e2e8f0;
+    background: white;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+}
+
+.preset-btn:hover {
+    border-color: #667eea;
+    color: #667eea;
+}
+
+/* 节拍选择 */
+.time-signature {
+    text-align: center;
+}
+
+.time-signature label {
+    display: block;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: #4a5568;
+}
+
+.signature-buttons {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.signature-btn {
+    padding: 0.75rem 1.5rem;
+    border: 2px solid #e2e8f0;
+    background: white;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 600;
+}
+
+.signature-btn:hover {
+    border-color: #667eea;
+    color: #667eea;
+}
+
+.signature-btn.active {
+    background: #667eea;
+    border-color: #667eea;
+    color: white;
+}
+
+/* 音量控制 */
+.volume-control {
+    text-align: center;
+}
+
+.volume-control label {
+    display: block;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: #4a5568;
+}
+
+.volume-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.volume-icon {
+    width: 24px;
+    height: 24px;
+    fill: #718096;
+}
+
+.volume-slider {
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    background: #e2e8f0;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #667eea;
+    cursor: pointer;
+}
+
+.volume-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #667eea;
+    cursor: pointer;
+    border: none;
+}
+
+/* 音效选择 */
+.sound-selection {
+    text-align: center;
+}
+
+.sound-selection label {
+    display: block;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: #4a5568;
+}
+
+.sound-select {
+    padding: 0.75rem 1rem;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    background: white;
+    font-size: 1rem;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.sound-select:focus {
+    border-color: #667eea;
+}
+
+/* 节拍可视化 */
+.beat-visualization {
+    width: 100%;
+}
+
+.beat-bars {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.beat-bar {
+    width: 60px;
+    height: 8px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    transition: all 0.1s ease;
+}
+
+.beat-bar.active {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    transform: scaleY(2);
+}
+
+/* 信息区域 */
+.info {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e2e8f0;
+}
+
+.info-item h3 {
+    color: #4a5568;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.info-item ul {
+    list-style: none;
+    color: #718096;
+}
+
+.info-item li {
+    padding: 0.25rem 0;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.info-item li::before {
+    content: '•';
+    color: #667eea;
+    position: absolute;
+    left: 0;
+    font-weight: bold;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        padding: 1.5rem;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    .beat-circle {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .beat-pulse {
+        width: 70px;
+        height: 70px;
+    }
+    
+    #bpmValue {
+        font-size: 2.5rem;
+    }
+    
+    .signature-buttons {
+        flex-wrap: wrap;
+    }
+    
+    .bpm-presets {
+        flex-wrap: wrap;
+    }
+}
+
+/* 动画效果 */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.beat-circle.pulse {
+    animation: pulse 0.1s ease;
+}
+
+@keyframes beatFlash {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(1.1);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.beat-bar.flash {
+    animation: beatFlash 0.2s ease;
+}
+
+/* iPhone 15 专用适配 */
+@supports (padding: max(0px)) {
+    body {
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+    }
+}
+
+/* iPhone 15 屏幕尺寸适配 (393x852) */
+@media only screen and (device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) {
+    .container {
+        width: 95%;
+        max-width: 380px;
+        padding: 1rem;
+        margin-top: 1rem;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    header p {
+        font-size: 1rem;
+    }
+    
+    .beat-circle {
+        width: 90px;
+        height: 90px;
+    }
+    
+    .beat-pulse {
+        width: 65px;
+        height: 65px;
+    }
+    
+    #bpmValue {
+        font-size: 2.2rem;
+    }
+    
+    .play-btn {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .play-btn svg {
+        width: 25px;
+        height: 25px;
+    }
+}
+
+/* 移动端触摸优化 */
+@media (max-width: 480px) {
+    /* 增大触摸目标 */
+    .bpm-btn {
+        width: 48px;
+        height: 48px;
+        font-size: 1.4rem;
+    }
+    
+    .signature-btn {
+        padding: 1rem 1.25rem;
+        min-height: 48px;
+        font-size: 1rem;
+    }
+    
+    .preset-btn {
+        padding: 0.75rem 1.25rem;
+        min-height: 44px;
+        font-size: 1rem;
+    }
+    
+    /* 滑块优化 */
+    .bpm-slider {
+        height: 12px;
+    }
+    
+    .bpm-slider::-webkit-slider-thumb {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .bmp-slider::-moz-range-thumb {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .volume-slider {
+        height: 10px;
+    }
+    
+    .volume-slider::-webkit-slider-thumb {
+        width: 24px;
+        height: 24px;
+    }
+    
+    .volume-slider::-moz-range-thumb {
+        width: 24px;
+        height: 24px;
+    }
+    
+    /* 选择框优化 */
+    .sound-select {
+        padding: 1rem;
+        font-size: 1.1rem;
+        min-height: 48px;
+    }
+    
+    /* 间距调整 */
+    .controls {
+        gap: 1.25rem;
+    }
+    
+    .metronome {
+        gap: 1.5rem;
+    }
+    
+    /* 节拍条优化 */
+    .beat-bar {
+        width: 50px;
+        height: 10px;
+    }
+    
+    /* 防止意外缩放 */
+    input, select, textarea {
+        font-size: 16px !important;
+    }
+}
+
+/* iPhone 15 Pro Max 适配 (430x932) */
+@media only screen and (device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) {
+    .container {
+        max-width: 420px;
+        padding: 1.5rem;
+    }
+    
+    .beat-circle {
+        width: 110px;
+        height: 110px;
+    }
+    
+    .beat-pulse {
+        width: 75px;
+        height: 75px;
+    }
+    
+    #bpmValue {
+        font-size: 2.8rem;
+    }
+}
+
+/* 横屏适配 */
+@media (orientation: landscape) and (max-height: 500px) {
+    .container {
+        padding: 1rem;
+    }
+    
+    header {
+        margin-bottom: 1rem;
+    }
+    
+    header h1 {
+        font-size: 1.8rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    .metronome {
+        gap: 1rem;
+    }
+    
+    .beat-circle {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .beat-pulse {
+        width: 55px;
+        height: 55px;
+    }
+    
+    #bpmValue {
+        font-size: 2rem;
+    }
+    
+    .play-btn {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .controls {
+        gap: 1rem;
+    }
+    
+    .info {
+        margin-top: 1rem;
+        padding-top: 1rem;
+    }
+}
+
+/* 触摸反馈 */
+@media (hover: none) and (pointer: coarse) {
+    .play-btn:active {
+        transform: scale(0.95);
+        transition: transform 0.1s ease;
+    }
+    
+    .bpm-btn:active {
+        transform: scale(0.9);
+        transition: transform 0.1s ease;
+    }
+    
+    .signature-btn:active {
+        transform: scale(0.98);
+        transition: transform 0.1s ease;
+    }
+    
+    .preset-btn:active {
+        transform: scale(0.98);
+        transition: transform 0.1s ease;
+    }
+}
+
+/* 深色模式适配 */
+@media (prefers-color-scheme: dark) {
+    body {
+        background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+    }
+    
+    .container {
+        background: rgba(26, 32, 44, 0.95);
+        color: #e2e8f0;
+    }
+    
+    header h1 {
+        color: #e2e8f0;
+    }
+    
+    header p {
+        color: #a0aec0;
+    }
+    
+    .beat-counter {
+        color: #e2e8f0;
+    }
+    
+    .bpm-control label,
+    .time-signature label,
+    .volume-control label,
+    .sound-selection label {
+        color: #e2e8f0;
+    }
+    
+    .info-item h3 {
+        color: #e2e8f0;
+    }
+    
+    .info-item li {
+        color: #a0aec0;
+    }
+}

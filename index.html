@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <!-- PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="专业节拍器">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#4CAF50">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iNDAiIGZpbGw9IiM0Q0FGNTASCZ8L3JlY3Q+CjxjaXJjbGUgY3g9Ijk2IiBjeT0iOTYiIHI9IjUwIiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjQiIGZpbGw9Im5vbmUiLz4KPHN2ZyB4PSI4NiIgeT0iNzYiIHdpZHRoPSIyMCIgaGVpZ2h0PSI0MCI+CjxwYXRoIGQ9Ik0xMCA1TDE4IDEwTDEwIDIwVjVaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+">
+    <link rel="apple-touch-icon" sizes="180x180" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgdmlld0JveD0iMCAwIDE4MCAxODAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxODAiIGhlaWdodD0iMTgwIiByeD0iMzYiIGZpbGw9IiM0Q0FGNTASCZ8L3JlY3Q+CjxjaXJjbGUgY3g9IjkwIiBjeT0iOTAiIHI9IjQ1IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjQiIGZpbGw9Im5vbmUiLz4KPHN2ZyB4PSI4MSIgeT0iNzIiIHdpZHRoPSIxOCIgaGVpZ2h0PSIzNiI+CjxwYXRoIGQ9Ik05IDVMMTYgMTBMOSAyMFY1WiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+Cjwvc3ZnPg==">
+    <meta name="format-detection" content="telephone=no">
+    <title>专业节拍器 - Professional Metronome</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="i18n.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 data-i18n="title" data-bilingual>节拍器</h1>
+            <p data-i18n="subtitle" data-bilingual>专业音乐节拍器</p>
+        </header>
+
+        <main class="metronome">
+            <!-- 节拍指示器 -->
+            <div class="beat-indicator">
+                <div class="beat-circle" id="beatCircle">
+                    <div class="beat-pulse"></div>
+                </div>
+                <div class="beat-counter">
+                    <span id="currentBeat">1</span>
+                    <span>/</span>
+                    <span id="totalBeats">4</span>
+                </div>
+            </div>
+
+            <!-- BPM显示 -->
+            <div class="bpm-display">
+                <div class="bpm-value">
+                    <span id="bpmValue">120</span>
+                    <span class="bpm-label" data-i18n="bpm" data-bilingual>BPM</span>
+                </div>
+            </div>
+
+            <!-- 控制面板 -->
+            <div class="controls">
+                <!-- 播放/暂停按钮 -->
+                <button class="play-btn" id="playBtn" data-i18n-aria="play" aria-label="播放/暂停">
+                    <svg class="play-icon" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                    <svg class="pause-icon" viewBox="0 0 24 24" style="display: none;">
+                        <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                    </svg>
+                </button>
+
+                <!-- BPM调节 -->
+                <div class="bpm-control">
+                    <label for="bpmSlider" data-i18n="bpmLabel" data-bilingual>速度 (BPM)</label>
+                    <div class="slider-container">
+                        <button class="bpm-btn" id="bpmDecrease" data-i18n-aria="bpmDown" aria-label="减少BPM">-</button>
+                        <input type="range" id="bpmSlider" min="40" max="200" value="120" class="bpm-slider">
+                        <button class="bpm-btn" id="bpmIncrease" data-i18n-aria="bpmUp" aria-label="增加BPM">+</button>
+                    </div>
+                    <div class="bpm-presets">
+                        <button class="preset-btn" data-bpm="60" data-i18n="andante" data-bilingual>慢板</button>
+                        <button class="preset-btn" data-bpm="120" data-i18n="moderato" data-bilingual>中板</button>
+                        <button class="preset-btn" data-bpm="160" data-i18n="allegro" data-bilingual>快板</button>
+                    </div>
+                </div>
+
+                <!-- 节拍选择 -->
+                <div class="time-signature">
+                    <label data-i18n="timeSignature" data-bilingual>节拍</label>
+                    <div class="signature-buttons">
+                        <button class="signature-btn active" data-signature="4/4" data-i18n="beat44" data-bilingual>4/4</button>
+                        <button class="signature-btn" data-signature="3/4" data-i18n="beat34" data-bilingual>3/4</button>
+                        <button class="signature-btn" data-signature="2/4" data-i18n="beat24" data-bilingual>2/4</button>
+                        <button class="signature-btn" data-signature="6/8" data-i18n="beat68" data-bilingual>6/8</button>
+                    </div>
+                </div>
+
+                <!-- 音量控制 -->
+                <div class="volume-control">
+                    <label for="volumeSlider" data-i18n="volume" data-bilingual>音量</label>
+                    <div class="volume-container">
+                        <svg class="volume-icon" viewBox="0 0 24 24">
+                            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                        </svg>
+                        <input type="range" id="volumeSlider" min="0" max="100" value="70" class="volume-slider">
+                    </div>
+                </div>
+
+                <!-- 节拍音效选择 -->
+                <div class="sound-selection">
+                    <label data-i18n="soundEffect" data-bilingual>节拍音效</label>
+                    <select id="soundSelect" class="sound-select">
+                        <option value="click" data-i18n="click" data-bilingual>经典滴答</option>
+                        <option value="beep" data-i18n="beep" data-bilingual>电子哔声</option>
+                        <option value="wood" data-i18n="wood" data-bilingual>木质敲击</option>
+                        <option value="digital" data-i18n="digital" data-bilingual>数字音效</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 节拍可视化 -->
+            <div class="beat-visualization">
+                <div class="beat-bars">
+                    <div class="beat-bar active" data-beat="1"></div>
+                    <div class="beat-bar" data-beat="2"></div>
+                    <div class="beat-bar" data-beat="3"></div>
+                    <div class="beat-bar" data-beat="4"></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- 功能说明 -->
+        <footer class="info">
+            <div class="info-item">
+                <h3>使用说明</h3>
+                <ul>
+                    <li>点击播放按钮开始/停止节拍器</li>
+                    <li>拖动滑块或点击±按钮调整BPM</li>
+                    <li>选择不同的节拍模式（4/4、3/4等）</li>
+                    <li>调节音量和选择喜欢的节拍音效</li>
+                </ul>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+    
+    <!-- PWA Service Worker Registration -->
+    <script>
+        // 注册 Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                        
+                        // 检查更新
+                        registration.addEventListener('updatefound', () => {
+                            const newWorker = registration.installing;
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    // 新版本可用，提示用户刷新
+                                    if (confirm('发现新版本，是否立即更新？')) {
+                                        newWorker.postMessage({ type: 'SKIP_WAITING' });
+                                        window.location.reload();
+                                    }
+                                }
+                            });
+                        });
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+            
+            // 监听 Service Worker 控制器变化
+            navigator.serviceWorker.addEventListener('controllerchange', () => {
+                window.location.reload();
+            });
+        }
+        
+        // PWA 安装提示
+        let deferredPrompt;
+        const installButton = document.createElement('button');
+        installButton.textContent = '安装应用';
+        installButton.style.cssText = `
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+            z-index: 1000;
+            display: none;
+            transition: all 0.3s ease;
+        `;
+        
+        installButton.addEventListener('mouseenter', () => {
+            installButton.style.transform = 'scale(1.05)';
+            installButton.style.boxShadow = '0 6px 16px rgba(76, 175, 80, 0.4)';
+        });
+        
+        installButton.addEventListener('mouseleave', () => {
+            installButton.style.transform = 'scale(1)';
+            installButton.style.boxShadow = '0 4px 12px rgba(76, 175, 80, 0.3)';
+        });
+        
+        document.body.appendChild(installButton);
+        
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            installButton.style.display = 'block';
+        });
+        
+        installButton.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`User response to the install prompt: ${outcome}`);
+                deferredPrompt = null;
+                installButton.style.display = 'none';
+            }
+        });
+        
+        window.addEventListener('appinstalled', () => {
+            console.log('PWA was installed');
+            installButton.style.display = 'none';
+        });
+        
+        // iOS Safari 安装提示
+        function isIOS() {
+            return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        }
+        
+        function isInStandaloneMode() {
+            return ('standalone' in window.navigator) && (window.navigator.standalone);
+        }
+        
+        if (isIOS() && !isInStandaloneMode()) {
+            const iosInstallPrompt = document.createElement('div');
+            iosInstallPrompt.innerHTML = `
+                <div style="
+                    position: fixed;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    background: rgba(0,0,0,0.9);
+                    color: white;
+                    padding: 16px;
+                    text-align: center;
+                    font-size: 14px;
+                    z-index: 1001;
+                    backdrop-filter: blur(10px);
+                ">
+                    <p style="margin: 0 0 8px 0;">将此应用添加到主屏幕</p>
+                    <p style="margin: 0; font-size: 12px; opacity: 0.8;">点击 <span style="font-size: 18px;">⬆️</span> 然后选择"添加到主屏幕"</p>
+                    <button onclick="this.parentElement.parentElement.remove()" style="
+                        position: absolute;
+                        top: 8px;
+                        right: 12px;
+                        background: none;
+                        border: none;
+                        color: white;
+                        font-size: 18px;
+                        cursor: pointer;
+                    ">×</button>
+                </div>
+            `;
+            
+            // 延迟显示，避免干扰用户初次体验
+            setTimeout(() => {
+                document.body.appendChild(iosInstallPrompt);
+                
+                // 10秒后自动隐藏
+                setTimeout(() => {
+                    if (iosInstallPrompt.parentElement) {
+                        iosInstallPrompt.remove();
+                    }
+                }, 10000);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
