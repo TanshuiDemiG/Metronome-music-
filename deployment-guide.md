@@ -39,19 +39,76 @@ php -S localhost:8000
 ```
 
 #### 步骤3：部署到HTTPS服务器 | Step 3: Deploy to HTTPS Server
-PWA要求HTTPS协议，可选择以下平台：
+PWA要求HTTPS协议，推荐以下两种部署方案：
 
-**免费部署选项：**
-- **Netlify**: 拖拽文件夹即可部署
-- **Vercel**: 连接GitHub自动部署
-- **GitHub Pages**: 免费静态网站托管
-- **Firebase Hosting**: Google提供的免费托管
+#### 选项A：Netlify部署 | Option A: Netlify Deployment
 
-**Netlify部署示例：**
-1. 访问 [netlify.com](https://netlify.com)
-2. 注册账号并登录
-3. 将整个项目文件夹拖拽到部署区域
-4. 获得类似 `https://amazing-app-123.netlify.app` 的网址
+**方法1：拖拽部署 | Method 1: Drag & Drop Deployment**
+1. 访问 [netlify.com](https://netlify.com) / Visit [netlify.com](https://netlify.com)
+2. 注册/登录账户 / Register/Login account
+3. 将整个项目文件夹拖拽到部署区域 / Drag entire project folder to deployment area
+4. 等待部署完成，获得HTTPS网址 / Wait for deployment completion, get HTTPS URL
+
+**方法2：Git连接部署 | Method 2: Git Connected Deployment**
+```bash
+# 1. 将代码推送到GitHub / Push code to GitHub
+git init
+git add .
+git commit -m "Initial commit"
+git remote add origin https://github.com/yourusername/metronome.git
+git push -u origin main
+
+# 2. 在Netlify中连接GitHub仓库 / Connect GitHub repository in Netlify
+# 3. 选择仓库和分支 / Select repository and branch
+# 4. 设置构建命令（可选）/ Set build command (optional)
+# Build command: (留空 / leave empty)
+# Publish directory: . (当前目录 / current directory)
+```
+
+**Netlify配置示例 | Netlify Configuration Example:**
+```yaml
+# netlify.toml (可选配置文件 / Optional configuration file)
+[build]
+  publish = "."
+  
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
+    
+[[headers]]
+  for = "/manifest.json"
+  [headers.values]
+    Content-Type = "application/manifest+json"
+```
+
+#### 选项B：GitHub Pages部署 | Option B: GitHub Pages Deployment
+
+**步骤1：推送代码到GitHub | Step 1: Push Code to GitHub**
+```bash
+# 初始化Git仓库 / Initialize Git repository
+git init
+git add .
+git commit -m "Initial commit: Bilingual metronome PWA"
+
+# 添加远程仓库 / Add remote repository
+git remote add origin https://github.com/yourusername/metronome.git
+git push -u origin main
+```
+
+**步骤2：启用GitHub Pages | Step 2: Enable GitHub Pages**
+1. 进入GitHub仓库设置 / Go to GitHub repository settings
+2. 滚动到"Pages"部分 / Scroll to "Pages" section
+3. 在"Source"下选择"Deploy from a branch" / Under "Source" select "Deploy from a branch"
+4. 选择"main"分支和"/ (root)"文件夹 / Select "main" branch and "/ (root)" folder
+5. 点击"Save"保存设置 / Click "Save" to save settings
+6. 等待几分钟，访问 `https://yourusername.github.io/metronome` / Wait a few minutes, visit `https://yourusername.github.io/metronome`
+
+**GitHub Pages配置注意事项 | GitHub Pages Configuration Notes:**
+- 仓库必须是公开的（免费账户）/ Repository must be public (free accounts)
+- 部署可能需要几分钟时间 / Deployment may take a few minutes
+- 支持自定义域名 / Supports custom domains
+- 自动HTTPS加密 / Automatic HTTPS encryption
 
 #### 步骤4：iPhone 15安装 | Step 4: iPhone 15 Installation
 1. **Safari浏览器访问 | Safari Browser Access**：在iPhone 15的Safari中打开部署的网址 | Open deployed URL in Safari on iPhone 15
