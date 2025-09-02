@@ -1,4 +1,4 @@
-# 专业节拍器 / Professional Metronome
+# 节拍器 / Metronome
 
 一个支持中英文双语的现代化节拍器PWA应用。
 A modern bilingual metronome PWA application.
