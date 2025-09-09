@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>语法错误检测</title>
+</head>
+<body>
+    <h1>JavaScript语法错误检测</h1>
+    <div id="output"></div>
+    
+    <script>
+        window.onerror = function(message, source, lineno, colno, error) {
+            console.error('全局错误捕获:', {
+                message: message,
+                source: source,
+                line: lineno,
+                column: colno,
+                error: error
+            });
+            document.getElementById('output').innerHTML += 
+                '<p style="color: red;">错误: ' + message + ' (行: ' + lineno + ', 列: ' + colno + ')</p>';
+            return true;
+        };
+        
+        // 尝试加载并执行script.js
+        fetch('script.js')
+            .then(response => response.text())
+            .then(code => {
+                try {
+                    // 使用eval来执行代码，这样可以捕获语法错误
+                    eval(code);
+                    document.getElementById('output').innerHTML += '<p style="color: green;">脚本执行成功</p>';
+                } catch (error) {
+                    console.error('执行错误:', error);
+                    document.getElementById('output').innerHTML += 
+                        '<p style="color: red;">执行错误: ' + error.message + '</p>';
+                }
+            })
+            .catch(error => {
+                console.error('加载错误:', error);
+                document.getElementById('output').innerHTML += 
+                    '<p style="color: red;">加载错误: ' + error.message + '</p>';
+            });
+    </script>
+</body>
+</html>

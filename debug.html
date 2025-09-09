@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>调试页面</title>
+</head>
+<body>
+    <h1>JavaScript调试</h1>
+    <div id="output"></div>
+    
+    <script>
+        const output = document.getElementById('output');
+        
+        function log(message) {
+            output.innerHTML += '<p>' + message + '</p>';
+            console.log(message);
+        }
+        
+        // 捕获所有错误
+        window.onerror = function(message, source, lineno, colno, error) {
+            log('错误: ' + message + ' 在 ' + source + ' 第' + lineno + '行，第' + colno + '列');
+            if (error && error.stack) {
+                log('堆栈: ' + error.stack);
+            }
+            return true;
+        };
+        
+        window.addEventListener('unhandledrejection', function(event) {
+            log('未处理的Promise拒绝: ' + event.reason);
+        });
+        
+        // 逐步加载和测试
+        log('开始测试...');
+        
+        // 测试基本JavaScript
+        try {
+            log('测试基本语法...');
+            const test = { a: 1 };
+            log('基本语法正常');
+        } catch (e) {
+            log('基本语法错误: ' + e.message);
+        }
+        
+        // 加载script.js
+        log('尝试加载script.js...');
+        const script = document.createElement('script');
+        script.src = 'script.js?v=' + Date.now();
+        script.onload = function() {
+            log('script.js加载成功');
+        };
+        script.onerror = function(e) {
+            log('script.js加载失败: ' + e);
+        };
+        document.head.appendChild(script);
+    </script>
+</body>
+</html>

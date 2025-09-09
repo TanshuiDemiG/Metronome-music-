@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>清洁测试</title>
+</head>
+<body>
+    <h1>清洁测试页面</h1>
+    <p>这个页面不加载任何外部JavaScript文件</p>
+    <div id="status">正在测试...</div>
+    
+    <script>
+        document.getElementById('status').textContent = 'JavaScript正常工作！';
+        console.log('清洁测试页面加载成功');
+    </script>
+</body>
+</html>

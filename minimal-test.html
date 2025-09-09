@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>最小测试</title>
+</head>
+<body>
+    <h1>最小JavaScript测试</h1>
+    <div id="result"></div>
+    
+    <script>
+        console.log('开始测试');
+        
+        // 测试基本语法
+        try {
+            const obj = { test: 'value' };
+            console.log('基本对象:', obj.test);
+            
+            // 测试方法调用
+            const arr = [1, 2, 3];
+            console.log('数组长度:', arr.length);
+            
+            // 测试DOM操作
+            document.getElementById('result').textContent = '基本测试通过';
+            
+            console.log('所有基本测试通过');
+        } catch (error) {
+            console.error('基本测试失败:', error);
+            document.getElementById('result').textContent = '基本测试失败: ' + error.message;
+        }
+        
+        // 现在尝试加载原始脚本的一小部分
+        try {
+            console.log('测试类定义');
+            
+            class TestClass {
+                constructor() {
+                    this.value = 42;
+                }
+                
+                getValue() {
+                    return this.value;
+                }
+            }
+            
+            const instance = new TestClass();
+            console.log('类测试通过:', instance.getValue());
+            
+            document.getElementById('result').textContent += ' | 类测试通过';
+            
+        } catch (error) {
+            console.error('类测试失败:', error);
+            document.getElementById('result').textContent += ' | 类测试失败: ' + error.message;
+        }
+    </script>
+</body>
+</html>
